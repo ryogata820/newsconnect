@@ -1,17 +1,16 @@
 export default async function handler(req, res) {
 if (req.method !== "GET") return res.status(405).end();
 try {
-const response = await fetch("https://www3.nhk.or.jp/rss/news/cat0.xml");
-const text = await response.text();
-const items = [...text.matchAll(/<title><!\[CDATA\[(.*?)\]\]><\/title>/g)]
-.slice(1, 8)
-.map((m, i) => ({
+const response = await fetch(
+"https://newsapi.org/v2/top-headlines?country=jp&pageSize=7&apiKey=5335b90584a24d47a49a2208c1368df9"
+);
+const data = await response.json();
+const topics = data.articles.slice(0, 7).map((item, i) => ({
 id: i + 1,
-title: m[1],
+title: item.title,
 category: "ニュース",
 }));
-if (items.length === 0) throw new Error("no items");
-res.status(200).json({ topics: items });
+res.status(200).json({ topics });
 } catch (error) {
 console.error(error);
 res.status(500).json({ error: "トピックの取得に失敗しました" });
