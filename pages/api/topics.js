@@ -2,8 +2,8 @@ export default async function handler(req, res) {
 if (req.method !== "GET") return res.status(405).end();
 try {
 const response = await fetch(
-"https://newsapi.org/v2/top-headlines?country=jp&pageSize=7&apiKey=YOUR_NEWS_API_KEY",
-{ headers: { "X-Api-Key": "YOUR_NEWS_API_KEY" } }
+"https://newsapi.org/v2/top-headlines?country=jp&pageSize=7&apiKey=5335b90584a24d47a49a2208c1368df9",
+{ headers: { "X-Api-Key": "5335b90584a24d47a49a2208c1368df9" } }
 );
 const data = await response.json();
 console.log("NewsAPI response:", JSON.stringify(data));
