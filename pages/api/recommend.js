@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+"sk-ant-api03-zfDiU09MvH8AYbh39A15jXfmbKyT3XNE70q64G4vp9oe9aOyxTdxZrNTfMXobE07jK09OIKkyMJDIvQ7ryv5qg-7eJR9gAA"export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
   const { title, category } = req.body;
@@ -9,7 +9,7 @@ export default async function handler(req, res) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY,
+        "x-api-key": "sk-ant-api03-zfDiU09MvH8AYbh39A15jXfmbKyT3XNE70q64G4vp9oe9aOyxTdxZrNTfMXobE07jK09OIKkyMJDIvQ7ryv5qg-7eJR9gAA",
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
