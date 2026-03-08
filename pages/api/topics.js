@@ -2,19 +2,16 @@ export default async function handler(req, res) {
 if (req.method !== "GET") return res.status(405).end();
 try {
 const response = await fetch(
-"https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx1YlY4U0FtcGhHZ0pLVWlnQVAB?hl=ja&gl=JP&ceid=JP:ja"
+"https://rss.app/feeds/tJOGSaGdBMLpgGPw.json"
 );
-const text = await response.text();
-const items = [...text.matchAll(/<title>(.*?)<\/title>/g)]
-.slice(1, 8)
-.map((m, i) => ({
+const data = await response.json();
+const topics = data.items.slice(0, 7).map((item, i) => ({
 id: i + 1,
-title: m[1].replace(/<[^>]*>/g, ""),
+title: item.title,
 category: "ニュース",
 }));
-res.status(200).json({ topics: items });
+res.status(200).json({ topics });
 } catch (error) {
-console.error(error);
-res.status(500).json({ error: "トピックの取得に失敗しました" });
-}
-}
+const topics = [
+{ id: 1, title: "日本経済の動向", category: "経済" },
+{ id: 2, title: "AI技術の最​​​​​​​​​​​​​​​​
