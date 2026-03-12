@@ -1,22 +1,22 @@
 export default async function handler(req, res) {
-const topic = req.method === "POST" ? req.body?.topic : req.query?.topic;
+if (req.method !== "POST") return res.status(405).end();
+
+const topic = req.body?.topic;
 
 if (!topic) {
 return res.status(400).json({ error: "トピックが必要です" });
 }
 
-const keyword = encodeURIComponent(topic);
-
 try {
 const booksRes = await fetch(
-`https://openlibrary.org/search.json?q=${keyword}&limit=5`
+`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(topic)}&langRestrict=ja&maxResults=5`
 );
 const booksData = await booksRes.json();
 
-const recommendations = booksData.docs.slice(0, 5).map(b => ({
+const recommendations = (booksData.items || []).slice(0, 5).map(b => ({
 type: "本",
-title: b.title,
-author: b.author_name?.[0] || "不明",
+title: b.volumeInfo.title,
+author: b.volumeInfo.authors?.[0] || "不明",
 reason: `「${topic}」に関連する作品です`,
 }));
 
