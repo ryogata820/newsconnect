@@ -7,8 +7,11 @@ if (!topic) {
 return res.status(400).json({ error: "トピックが必要です" });
 }
 
+// タイトルから最初の10文字だけ使う
+const shortKeyword = topic.slice(0, 10);
+
 try {
-const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(topic)}&maxResults=5`;
+const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(shortKeyword)}&maxResults=5`;
 const booksRes = await fetch(url);
 const booksData = await booksRes.json();
 
