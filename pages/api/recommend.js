@@ -8,15 +8,20 @@ return res.status(400).json({ error: "トピックが必要です" });
 }
 
 try {
-const booksRes = await fetch(
-`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(topic)}&langRestrict=ja&maxResults=5`
-);
+const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(topic)}&maxResults=5`;
+const booksRes = await fetch(url);
 const booksData = await booksRes.json();
 
-const recommendations = (booksData.items || []).slice(0, 5).map(b => ({
+if (!booksData.items || booksData.items.length === 0) {
+return res.status(200).json({ recommendations: [
+{ type: "本", title: "関連する本が見つかりませんでした", author: "", reason: "別のキーワードで試してください" }
+]});
+}
+
+const recommendations = booksData.items.slice(0, 5).map(b => ({
 type: "本",
-title: b.volumeInfo.title,
-author: b.volumeInfo.authors?.[0] || "不明",
+title: b.volumeInfo?.title || "不明",
+author: b.volumeInfo?.authors?.[0] || "不明",
 reason: `「${topic}」に関連する作品です`,
 }));
 
