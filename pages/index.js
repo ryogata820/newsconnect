@@ -16,13 +16,13 @@ try {
 const res = await fetch("/api/topics");
 const data = await res.json();
 if (data.topics) setTopics(data.topics);
-else setError("トピックの取得に失敗しました。再試行してください。");
 } catch (e) {
-setError("トピックの取得に失敗しました。再試行してください。");
+setError("トピックの取得に失敗しました");
 }
 };
 
 const fetchRecommendations = async (topicTitle) => {
+if (!topicTitle) return;
 setLoading(true);
 setError("");
 setRecommendations([]);
@@ -45,6 +45,7 @@ return (
 <div style={{ maxWidth: 600, margin: "0 auto", padding: 20, fontFamily: "sans-serif" }}>
 <h1>NewsConnect</h1>
 <p>ニュースから物語を発見する</p>
+
 <div>
 <h2>話題のトピック</h2>
 {error && <p style={{ color: "red" }}>{error}</p>}
@@ -59,10 +60,39 @@ style={{ display: "block", width: "100%", margin: "5px 0", padding: 10, cursor: 
 ))}
 <button onClick={fetchTopics} style={{ marginTop: 10 }}>更新</button>
 </div>
+
 <div style={{ marginTop: 20 }}>
 <h2>キーワード検索</h2>
 <input
 value={searchText}
 onChange={(e) => setSearchText(e.target.value)}
 placeholder="例：AI規制、気候変動..."
-style={{ width: "80%", padding: 8
+style={{ width: "80%", padding: 8 }}
+/>
+<button
+onClick={() => fetchRecommendations(searchText)}
+style={{ padding: 8, marginLeft: 5 }}
+>
+検索
+</button>
+</div>
+
+{loading && <p>読み込み中...</p>}
+
+{recommendations.length > 0 && (
+<div style={{ marginTop: 20 }}>
+<h2>おすすめ作品</h2>
+{recommendations.map((r, i) => (
+<div key={i} style={{ border: "1px solid #ccc", padding: 10, marginBottom: 10, borderRadius: 8 }}>
+<p>{r.type}</p>
+<h3>{r.title}</h3>
+<p>{r.author}</p>
+<p>{r.reason}</p>
+</div>
+))}
+</div>
+)}
+</div>
+);
+}
+
