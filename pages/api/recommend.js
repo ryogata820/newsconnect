@@ -10,7 +10,7 @@ return res.status(400).json({ error: "トピックが必要です" });
 const shortKeyword = topic.slice(0, 15);
 
 try {
-const url = `https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?applicationId=7b2dd48a-d7e6-48f8-9b72-ce314a46213b&title=${encodeURIComponent(shortKeyword)}&hits=5&formatVersion=2`;
+const url = `https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?applicationId=7b2dd48a-d7e6-48f8-9b72-ce314a46213b&keyword=${encodeURIComponent(shortKeyword)}&hits=5&formatVersion=2`;
 const booksRes = await fetch(url);
 const booksData = await booksRes.json();
 
