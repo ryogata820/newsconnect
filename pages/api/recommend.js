@@ -19,22 +19,32 @@ model: "llama3-8b-8192",
 messages: [
 {
 role: "user",
-content: `ニュース「${topic}」に関連するおすすめの本や映画を3つ教えてください。以下のJSON形式のみで返してください：[{"type":"本または映画","title":"タイトル","author":"著者または監督名","reason":"理由を一文で"}]`,
+content: `ニュース「${topic}」に関連するおすすめの本や映画を3つ教えてください。必ずJSON配列のみで返してください。他の文章は不要です。形式：[{"type":"本","title":"タイトル","author":"著者名","reason":"理由"}]`,
 }
 ],
-max_tokens: 500,
+max_tokens: 800,
+temperature: 0.3,
 }),
 });
 
 const data = await response.json();
-const text = data.choices?.[0]?.message?.content || "";
-const match = text.match(/\[[\s\S]*\]/);
-if (!match) throw new Error("parse error");
+
+if (!data.choices || data.choices.length === 0) {
+throw new Error("no choices: " + JSON.stringify(data));
+}
+
+const text = data.choices[0].message.content;
+const match = text.match(/\[[\s\S]*?\]/);
+
+if (!match) {
+throw new Error("no json found: " + text);
+}
+
 const recommendations = JSON.parse(match[0]);
 res.status(200).json({ recommendations });
 } catch (error) {
-console.error(error);
-res.status(500).json({ error: "推薦の取得に失敗しました" });
+console.error("Error:", error.message);
+res.status(500).json({ error: error.message });
 }
 }
 
