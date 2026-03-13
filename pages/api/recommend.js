@@ -33,6 +33,20 @@ const recommendations_db = {
 { type: "本", title: "神様のカルテ", author: "夏川草介", reason: "医療現場を描いた小説" },
 { type: "映画", title: "コンテイジョン", author: "スティーブン・ソダーバーグ監督", reason: "感染症を描いた映画" },
 { type: "本", title: "医療の倫理", author: "星野一正", reason: "医療と社会を考える" },
+],"EV": [
+{ type: "本", title: "イーロン・マスク", author: "ウォルター・アイザックソン", reason: "EV革命を牽引した人物の伝記" },
+{ type: "映画", title: "ファスト&フュリアス", author: "ジャスティン・リン監督", reason: "自動車をテーマにした映画" },
+{ type: "本", title: "トヨタ生産方式", author: "大野耐一", reason: "自動車産業を理解する名著" },
+],
+"ホンダ": [
+{ type: "本", title: "本田宗一郎夢を力に", author: "本田宗一郎", reason: "ホンダ創業者の自伝" },
+{ type: "映画", title: "フォードvsフェラーリ", author: "ジェームズ・マンゴールド監督", reason: "自動車メーカーの戦いを描いた映画" },
+{ type: "本", title: "トヨタvs世界", author: "児玉博", reason: "自動車産業の競争を描く" },
+],
+"自動車": [
+{ type: "本", title: "自動車の世紀", author: "ジェームズ・J・フリンク", reason: "自動車産業の歴史" },
+{ type: "映画", title: "フォードvsフェラーリ", author: "ジェームズ・マンゴールド監督", reason: "自動車レースを描いた映画" },
+{ type: "本", title: "トヨタ生産方式", author: "大野耐一", reason: "自動車産業の革新" },
 ],
 };
 
