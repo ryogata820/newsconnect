@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+const AMAZON_TAG = "newsconnect-22";
+
 export default function Home() {
 const [topics, setTopics] = useState([]);
 const [recommendations, setRecommendations] = useState([]);
@@ -90,6 +92,14 @@ style={{ padding: 8, marginLeft: 5 }}
 <h3>{r.title}</h3>
 <p>{r.author}</p>
 <p style={{ color: "#666" }}>{r.reason}</p>
+<a
+href={`https://www.amazon.co.jp/s?k=${encodeURIComponent(r.title)}&tag=${AMAZON_TAG}`}
+target="_blank"
+rel="noopener noreferrer"
+style={{ display: "inline-block", marginTop: 8, padding: "6px 12px", backgroundColor: "#FF9900", color: "white", borderRadius: 4, textDecoration: "none" }}
+>
+Amazonで見る →
+</a>
 </div>
 ))}
 </div>
@@ -97,4 +107,3 @@ style={{ padding: 8, marginLeft: 5 }}
 </div>
 );
 }
-
