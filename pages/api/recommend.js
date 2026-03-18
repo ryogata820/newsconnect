@@ -9,7 +9,7 @@ return res.status(400).json({ error: "トピックが必要です" });
 
 try {
 const response = await fetch(
-"https://api-inference.huggingface.co/v1/chat/completions",
+"https://router.huggingface.co/hf-inference/v1/chat/completions",
 {
 method: "POST",
 headers: {
