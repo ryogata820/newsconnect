@@ -9,7 +9,7 @@ return res.status(400).json({ error: "トピックが必要です" });
 
 try {
 const response = await fetch(
-"https://router.huggingface.co/hf-inference/models/mistralai/Mistral-7B-Instruct-v0.3/v1/chat/completions",
+"https://api-inference.huggingface.co/v1/chat/completions",
 {
 method: "POST",
 headers: {
@@ -43,3 +43,4 @@ console.error("Error:", error.message);
 res.status(500).json({ error: error.message });
 }
 }
+
