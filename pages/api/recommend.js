@@ -14,7 +14,7 @@ const response = await fetch(
 method: "POST",
 headers: {
 "Content-Type": "application/json",
-"Authorization": "Bearer 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",
+"Authorization": "Bearer ${proces.anv.HF_TOKEN",
 },
 body: JSON.stringify({
 inputs: `ニュース「${topic}」に関連する実在する有名な本や映画を3つ教えてください。必ずJSON配列のみで返してください。形式：[{"type":"本","title":"タイトル","author":"著者名","reason":"理由"}]`,
