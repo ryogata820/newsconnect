@@ -3,6 +3,9 @@ if (req.method !== "POST") return res.status(405).end();
 
 const topic = req.body?.topic;
 
+console.log("HF_TOKEN exists:", !!process.env.HF_TOKEN);
+console.log("HF_TOKEN prefix:", process.env.HF_TOKEN?.slice(0, 5));
+
 if (!topic) {
 return res.status(400).json({ error: "トピックが必要です" });
 }
@@ -14,7 +17,7 @@ const response = await fetch(
 method: "POST",
 headers: {
 "Content-Type": "application/json",
-"Authorization": "Bearer ${proces.anv.HF_TOKEN",
+"Authorization": `Bearer ${process.env.HF_TOKEN}`,
 },
 body: JSON.stringify({
 inputs: `ニュース「${topic}」に関連する実在する有名な本や映画を3つ教えてください。必ずJSON配列のみで返してください。形式：[{"type":"本","title":"タイトル","author":"著者名","reason":"理由"}]`,
