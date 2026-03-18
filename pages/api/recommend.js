@@ -8,42 +8,32 @@ return res.status(400).json({ error: "トピックが必要です" });
 }
 
 try {
-const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+const response = await fetch(
+"https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3",
+{
 method: "POST",
 headers: {
 "Content-Type": "application/json",
-"Authorization": "Bearer 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",
+"Authorization": "Bearer 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",
 },
 body: JSON.stringify({
-model: "llama-3.3-70b-versatile",
-messages: [
-{
-role: "user",
-content: `ニュース「${topic}」に関連するおすすめの本や映画を3つ教えてください。以下の条件を必ず守ってください：
-1. 世界的に有名でベストセラーになった作品のみ
-2. 日本のAmazonで確実に購入できる作品のみ
-3. 著者名は正確に記載すること
-4. 映画は日本で公開された作品のみ
-必ずJSON配列のみで返してください。形式：[{"type":"本","title":"タイトル","author":"著者名","reason":"理由"}]`,
-}
-],
-max_tokens: 800,
+inputs: `ニュース「${topic}」に関連する実在する有名な本や映画を3つ教えてください。必ずJSON配列のみで返してください。形式：[{"type":"本","title":"タイトル","author":"著者名","reason":"理由"}]`,
+parameters: {
+max_new_tokens: 500,
 temperature: 0.1,
+return_full_text: false,
+},
 }),
-});
+}
+);
 
 const data = await response.json();
+const text = Array.isArray(data) ? data[0]?.generated_text : data?.generated_text;
 
-if (!data.choices || data.choices.length === 0) {
-throw new Error("no choices: " + JSON.stringify(data));
-}
+if (!text) throw new Error("no text: " + JSON.stringify(data));
 
-const text = data.choices[0].message.content;
 const match = text.match(/\[[\s\S]*?\]/);
-
-if (!match) {
-throw new Error("no json found: " + text);
-}
+if (!match) throw new Error("no json: " + text);
 
 const recommendations = JSON.parse(match[0]);
 res.status(200).json({ recommendations });
