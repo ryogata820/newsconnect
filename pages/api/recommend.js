@@ -3,16 +3,13 @@ if (req.method !== "POST") return res.status(405).end();
 
 const topic = req.body?.topic;
 
-console.log("HF_TOKEN exists:", !!process.env.HF_TOKEN);
-console.log("HF_TOKEN prefix:", process.env.HF_TOKEN?.slice(0, 5));
-
 if (!topic) {
 return res.status(400).json({ error: "トピックが必要です" });
 }
 
 try {
 const response = await fetch(
-"https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3",
+"https://router.huggingface.co/hf-inference/models/mistralai/Mistral-7B-Instruct-v0.3/v1/chat/completions",
 {
 method: "POST",
 headers: {
@@ -20,18 +17,19 @@ headers: {
 "Authorization": `Bearer ${process.env.HF_TOKEN}`,
 },
 body: JSON.stringify({
-inputs: `ニュース「${topic}」に関連する実在する有名な本や映画を3つ教えてください。必ずJSON配列のみで返してください。形式：[{"type":"本","title":"タイトル","author":"著者名","reason":"理由"}]`,
-parameters: {
-max_new_tokens: 500,
+model: "mistralai/Mistral-7B-Instruct-v0.3",
+messages: [{
+role: "user",
+content: `ニュース「${topic}」に関連する実在する有名な本や映画を3つ教えてください。必ずJSON配列のみで返してください。形式：[{"type":"本","title":"タイトル","author":"著者名","reason":"理由"}]`,
+}],
+max_tokens: 500,
 temperature: 0.1,
-return_full_text: false,
-},
 }),
 }
 );
 
 const data = await response.json();
-const text = Array.isArray(data) ? data[0]?.generated_text : data?.generated_text;
+const text = data.choices?.[0]?.message?.content;
 
 if (!text) throw new Error("no text: " + JSON.stringify(data));
 
@@ -45,4 +43,3 @@ console.error("Error:", error.message);
 res.status(500).json({ error: error.message });
 }
 }
-
