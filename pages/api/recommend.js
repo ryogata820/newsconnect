@@ -12,7 +12,7 @@ const response = await fetch("https://api.groq.com/openai/v1/chat/completions", 
 method: "POST",
 headers: {
 "Content-Type": "application/json",
-"Authorization": "Bearer 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",
+"Authorization": "Bearer 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",
 },
 body: JSON.stringify({
 model: "llama-3.3-70b-versatile",
