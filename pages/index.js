@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const AMAZON_TAG = "newsconnect-22";
+const AMAZON_TAG = "あなたのアソシエイトID";
 
 export default function Home() {
 const [topics, setTopics] = useState([]);
@@ -125,3 +125,4 @@ Amazonで見る →
 </div>
 );
 }
+
