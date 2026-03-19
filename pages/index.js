@@ -48,7 +48,7 @@ setLoading(false);
 return (
 <div style={{ maxWidth: 600, margin: "0 auto", padding: 20, fontFamily: "sans-serif" }}>
 <h1>📰 NewsConnect</h1>
-<p>ニュースから物語を発見する</p>
+<p>ニュースを物語で理解する。世界が少し面白くなる。</p>
 
 <div>
 <h2>話題のトピック</h2>
