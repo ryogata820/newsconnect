@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const AMAZON_TAG = "あなたのアソシエイトID";
+const AMAZON_TAG = "newsconnect-22";
 
 const CATEGORIES = [
 { label: "トップ", query: "general" },
