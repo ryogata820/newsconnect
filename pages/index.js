@@ -57,13 +57,13 @@ setLoading(false);
 };
 
 return (
-<div style={{ maxWidth: 600, margin: "0 auto", fontFamily: "sans-serif" }}>
+<div style={{ maxWidth: 600, margin: "0 auto", fontFamily: "sans-serif", backgroundColor: "#ffffff" }}>
 <div style={{ padding: "16px 20px", borderBottom: "1px solid #eee" }}>
-<h1 style={{ margin: 0, fontSize: 22 }}>NewsConnect</h1>
-<p style={{ margin: "4px 0 0", color: "#666", fontSize: 13 }}>ニュースを物語で理解する。世界が少し面白くなる。</p>
+<h1 style={{ margin: 0, fontSize: 22, color: "#333333" }}>NewsConnect</h1>
+<p style={{ margin: "4px 0 0", color: "#666666", fontSize: 13 }}>ニュースを物語で理解する。世界が少し面白くなる。</p>
 </div>
 
-<div style={{ display: "flex", overflowX: "auto", borderBottom: "1px solid #eee", padding: "0 8px" }}>
+<div style={{ display: "flex", overflowX: "auto", borderBottom: "1px solid #eee", padding: "0 8px", backgroundColor: "#ffffff" }}>
 {CATEGORIES.map((cat) => (
 <button
 key={cat.query}
@@ -76,7 +76,7 @@ background: "none",
 cursor: "pointer",
 fontSize: 13,
 fontWeight: selectedCategory === cat.query ? "bold" : "normal",
-color: selectedCategory === cat.query ? "#e74c3c" : "#666",
+color: selectedCategory === cat.query ? "#e74c3c" : "#666666",
 whiteSpace: "nowrap",
 }}
 >
@@ -85,26 +85,26 @@ whiteSpace: "nowrap",
 ))}
 </div>
 
-<div style={{ padding: 16 }}>
+<div style={{ padding: 16, backgroundColor: "#ffffff" }}>
 {error && <p style={{ color: "red" }}>{error}</p>}
 {topics.map((t) => (
 <div
 key={t.id}
 onClick={() => fetchRecommendations(t.title)}
-style={{ padding: "12px 0", borderBottom: "1px solid #eee", cursor: "pointer" }}
+style={{ padding: "12px 0", borderBottom: "1px solid #eeeeee", cursor: "pointer" }}
 >
-<p style={{ margin: 0, fontSize: 14, color: "#000", lineHeight: 1.5 }}>{t.title}</p>
+<p style={{ margin: 0, fontSize: 14, color: "#333333", lineHeight: 1.5 }}>{t.title}</p>
 </div>
 ))}
 </div>
 
-<div style={{ padding: "0 16px 16px" }}>
+<div style={{ padding: "0 16px 16px", backgroundColor: "#ffffff" }}>
 <div style={{ display: "flex", gap: 8 }}>
 <input
 value={searchText}
 onChange={(e) => setSearchText(e.target.value)}
 placeholder="キーワードで検索..."
-style={{ flex: 1, padding: 8, border: "1px solid #ddd", borderRadius: 4, fontSize: 14 }}
+style={{ flex: 1, padding: 8, border: "1px solid #dddddd", borderRadius: 4, fontSize: 14, color: "#333333" }}
 />
 <button
 onClick={() => fetchRecommendations(searchText)}
@@ -115,18 +115,18 @@ style={{ padding: "8px 16px", backgroundColor: "#3498db", color: "white", border
 </div>
 </div>
 
-{loading && <p style={{ textAlign: "center", color: "#666" }}>AIが考え中...</p>}
+{loading && <p style={{ textAlign: "center", color: "#666666" }}>AIが考え中...</p>}
 
 {recommendations.length > 0 && (
-<div style={{ padding: "0 16px 16px" }}>
-<h2 style={{ fontSize: 16 }}>おすすめ作品</h2>
-<p style={{ fontSize: 12, color: "#666" }}>{selectedTopic}に関連する作品</p>
+<div style={{ padding: "0 16px 16px", backgroundColor: "#ffffff" }}>
+<h2 style={{ fontSize: 16, color: "#333333" }}>おすすめ作品</h2>
+<p style={{ fontSize: 12, color: "#666666" }}>{selectedTopic}に関連する作品</p>
 {recommendations.map((r, i) => (
-<div key={i} style={{ border: "1px solid #eee", padding: 12, marginBottom: 10, borderRadius: 8 }}>
-<p style={{ margin: 0, fontSize: 12, color: "#666" }}>{r.type === "本" ? "本" : "映画"}</p>
-<h3 style={{ margin: "4px 0" }}>{r.title}</h3>
-<p style={{ margin: "0 0 4px", color: "#666", fontSize: 13 }}>{r.author}</p>
-<p style={{ margin: "0 0 8px", color: "#888", fontSize: 13 }}>{r.reason}</p>
+<div key={i} style={{ border: "1px solid #eeeeee", padding: 12, marginBottom: 10, borderRadius: 8, backgroundColor: "#ffffff" }}>
+<p style={{ margin: 0, fontSize: 12, color: "#666666" }}>{r.type === "本" ? "本" : "映画"}</p>
+<h3 style={{ margin: "4px 0", color: "#333333" }}>{r.title}</h3>
+<p style={{ margin: "0 0 4px", color: "#666666", fontSize: 13 }}>{r.author}</p>
+<p style={{ margin: "0 0 8px", color: "#888888", fontSize: 13 }}>{r.reason}</p>
 <a
 href={"https://www.amazon.co.jp/s?k=" + encodeURIComponent(r.title + " " + r.author) + "&tag=" + AMAZON_TAG}
 target="_blank"
