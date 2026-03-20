@@ -10,6 +10,7 @@ const CATEGORIES = [
 { label: "エンタメ", query: "entertainment" },
 { label: "スポーツ", query: "sports" },
 { label: "IT・科学", query: "technology" },
+{ label: "政治", query: "politics" },
 ];
 
 export default function Home() {
