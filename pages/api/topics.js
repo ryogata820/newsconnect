@@ -1,12 +1,12 @@
 const CATEGORY_KEYWORDS = {
 general: "",
 nation: "日本",
-world: "国際",
+world: "海外　国際ニュース",
 politics: "政治",
 business: "経済",
 entertainment: "エンタメ",
 sports: "スポーツ",
-technology: "IT テクノロジー",
+technology: "AI テクノロジー IT",
 };
 
 export default async function handler(req, res) {
