@@ -61,7 +61,7 @@ return (
 <div style={{ maxWidth: 600, margin: "0 auto", fontFamily: "sans-serif", backgroundColor: "#ffffff" }}>
 <div style={{ padding: "16px 20px", borderBottom: "1px solid #eee" }}>
 <h1 style={{ margin: 0, fontSize: 22, color: "#333333" }}>NewsConnect</h1>
-<p style={{ margin: "4px 0 0", color: "#666666", fontSize: 13 }}>ニュースを物語で理解する。世界がもっと面白くなる。</p>
+<p style={{ margin: "4px 0 0", color: "#666666", fontSize: 13 }}>ニュースを物語で理解する。世界が少し面白くなる。</p>
 </div>
 
 <div style={{ display: "flex", overflowX: "auto", borderBottom: "1px solid #eee", padding: "0 8px", backgroundColor: "#ffffff" }}>
@@ -105,42 +105,5 @@ style={{ padding: "12px 0", borderBottom: "1px solid #eeeeee", cursor: "pointer"
 value={searchText}
 onChange={(e) => setSearchText(e.target.value)}
 placeholder="キーワードで検索..."
-style={{ flex: 1, padding: 8, border: "1px solid #dddddd", borderRadius: 4, fontSize: 14, color: "#333333" }}
-/>
-<button
-onClick={() => fetchRecommendations(searchText)}
-style={{ padding: "8px 16px", backgroundColor: "#3498db", color: "white", border: "none", borderRadius: 4, cursor: "pointer" }}
->
-検索
-</button>
-</div>
-</div>
-
-{loading && <p style={{ textAlign: "center", color: "#666666" }}>AIが考え中...</p>}
-
-{recommendations.length > 0 && (
-<div style={{ padding: "0 16px 16px", backgroundColor: "#ffffff" }}>
-<h2 style={{ fontSize: 16, color: "#333333" }}>おすすめ作品</h2>
-<p style={{ fontSize: 12, color: "#666666" }}>{selectedTopic}に関連する作品</p>
-{recommendations.map((r, i) => (
-<div key={i} style={{ border: "1px solid #eeeeee", padding: 12, marginBottom: 10, borderRadius: 8, backgroundColor: "#ffffff" }}>
-<p style={{ margin: 0, fontSize: 12, color: "#666666" }}>{r.type === "本" ? "本" : "映画"}</p>
-<h3 style={{ margin: "4px 0", color: "#333333" }}>{r.title}</h3>
-<p style={{ margin: "0 0 4px", color: "#666666", fontSize: 13 }}>{r.author}</p>
-<p style={{ margin: "0 0 8px", color: "#888888", fontSize: 13 }}>{r.reason}</p>
-<a
-href={"https://www.amazon.co.jp/s?k=" + encodeURIComponent(r.title + " " + r.author) + "&tag=" + AMAZON_TAG}
-target="_blank"
-rel="noopener noreferrer"
-style={{ display: "inline-block", padding: "6px 12px", backgroundColor: "#FF9900", color: "white", borderRadius: 4, textDecoration: "none", fontSize: 13 }}
->
-Amazonで見る
-</a>
-</div>
-))}
-</div>
-)}
-</div>
-);
-}
+style={{ flex: 1, padding: 8, border​​​​​​​​​​​​​​​​
 
