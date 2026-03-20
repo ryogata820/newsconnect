@@ -6,11 +6,11 @@ const CATEGORIES = [
 { label: "トップ", query: "general" },
 { label: "国内", query: "nation" },
 { label: "国際", query: "world" },
+{ label: "政治", query: "politics" },
 { label: "経済", query: "business" },
 { label: "エンタメ", query: "entertainment" },
 { label: "スポーツ", query: "sports" },
 { label: "IT・科学", query: "technology" },
-{ label: "政治", query: "politics" },
 ];
 
 export default function Home() {
