@@ -61,7 +61,7 @@ return (
 <div style={{ maxWidth: 600, margin: "0 auto", fontFamily: "sans-serif", backgroundColor: "#ffffff" }}>
 <div style={{ padding: "16px 20px", borderBottom: "1px solid #eee" }}>
 <h1 style={{ margin: 0, fontSize: 22, color: "#333333" }}>NewsConnect</h1>
-<p style={{ margin: "4px 0 0", color: "#666666", fontSize: 13 }}>ニュースを物語で理解する。世界が少し面白くなる。</p>
+<p style={{ margin: "4px 0 0", color: "#666666", fontSize: 13 }}>ニュースを物語で理解する。世界がもっと面白くなる。</p>
 </div>
 
 <div style={{ display: "flex", overflowX: "auto", borderBottom: "1px solid #eee", padding: "0 8px", backgroundColor: "#ffffff" }}>
