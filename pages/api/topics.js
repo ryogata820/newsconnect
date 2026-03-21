@@ -5,7 +5,7 @@ const category = req.query.category || "general";
 
 try {
 const response = await fetch(
-`https://gnews.io/api/v4/top-headlines?lang=ja&country=jp&max=20&apikey=${process.env.GNEWS_API_KEY}`
+`https://gnews.io/api/v4/top-headlines?lang=ja&country=jp&max=10&apikey=${process.env.GNEWS_API_KEY}`
 );
 const data = await response.json();
 if (!data.articles || data.articles.length === 0) throw new Error("no articles");
@@ -59,9 +59,15 @@ const match = text.match(/\{[\s\S]*?\}/);
 const classified = match ? JSON.parse(match[0]) : {};
 
 const targetCategory = categoryMap[category];
-const filtered = data.articles.filter((_, i) => classified[i] === targetCategory);
+const filtered = data.articles.filter((_, i) => classified[String(i)] === targetCategory);
 
-const topics = filtered.slice(0, 7).map((item, i) => ({
+const topics = filtered.length > 0
+? filtered.slice(0, 7).map((item, i) => ({
+id: i + 1,
+title: item.title,
+category: category,
+}))
+: data.articles.slice(0, 7).map((item, i) => ({
 id: i + 1,
 title: item.title,
 category: category,
