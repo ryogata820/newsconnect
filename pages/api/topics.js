@@ -1,85 +1,39 @@
+const TOPIC_MAP = {
+general: null,
+nation: "nation",
+world: "world",
+politics: "nation",
+business: "business",
+entertainment: "entertainment",
+sports: "sports",
+technology: "technology",
+};
+
 export default async function handler(req, res) {
 if (req.method !== "GET") return res.status(405).end();
 
 const category = req.query.category || "general";
+const topic = TOPIC_MAP[category];
 
 try {
-const response = await fetch(
-`https://gnews.io/api/v4/top-headlines?lang=ja&country=jp&max=10&apikey=${process.env.GNEWS_API_KEY}`
-);
+const url = topic
+? `https://gnews.io/api/v4/top-headlines?lang=ja&country=jp&max=7&topic=${topic}&apikey=${process.env.GNEWS_API_KEY}`
+: `https://gnews.io/api/v4/top-headlines?lang=ja&country=jp&max=7&apikey=${process.env.GNEWS_API_KEY}`;
+
+const response = await fetch(url);
 const data = await response.json();
+const articles = data.articles || [];
+if (articles.length === 0) throw new Error("no articles");
 
-console.log("GNews response:", JSON.stringify(data).slice(0, 200));
-
-const articles = data.articles || data.items || [];
-if (articles.length === 0) throw new Error("no articles: " + JSON.stringify(data).slice(0, 100));
-
-if (category === "general") {
 const topics = articles.slice(0, 7).map((item, i) => ({
 id: i + 1,
 title: item.title,
-category: "general",
+category: category,
 }));
 return res.status(200).json({ topics });
-}
-
-const categoryMap = {
-nation: "国内",
-world: "国際",
-politics: "政治",
-business: "経済",
-entertainment: "エンタメ",
-sports: "スポーツ",
-technology: "IT・科学",
-};
-
-const geminiResponse = await fetch(
-`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-{
-method: "POST",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify({
-contents: [{
-parts: [{
-text: `以下のニュース記事タイトルを分類してください。
-- 国内：日本国内のニュース
-- 国際：海外・外国のニュース、外交
-- 政治：政府、選挙、政党のニュース
-- 経済：株、企業、経済指標のニュース
-- エンタメ：芸能、音楽、映画のニュース
-- スポーツ：スポーツ全般のニュース
-- IT・科学：テクノロジー、AI、宇宙、科学のニュース
-各記事番号とカテゴリーをJSON形式のみで返してください。例：{"0":"国内","1":"政治"}
-${articles.map((a, i) => `${i}: ${a.title}`).join("\n")}`
-}]
-}]
-}),
-}
-);
-
-const geminiData = await geminiResponse.json();
-const text = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
-const match = text.match(/\{[\s\S]*?\}/);
-const classified = match ? JSON.parse(match[0]) : {};
-
-const targetCategory = categoryMap[category];
-const filtered = articles.filter((_, i) => classified[String(i)] === targetCategory);
-
-const topics = filtered.length > 0
-? filtered.slice(0, 7).map((item, i) => ({
-id: i + 1,
-title: item.title,
-category: category,
-}))
-: articles.slice(0, 7).map((item, i) => ({
-id: i + 1,
-title: item.title,
-category: category,
-}));
-
-res.status(200).json({ topics });
 } catch (error) {
 console.error("Error:", error.message);
 res.status(500).json({ error: error.message });
 }
 }
+
