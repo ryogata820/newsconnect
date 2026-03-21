@@ -8,10 +8,14 @@ const response = await fetch(
 `https://gnews.io/api/v4/top-headlines?lang=ja&country=jp&max=10&apikey=${process.env.GNEWS_API_KEY}`
 );
 const data = await response.json();
-if (!data.articles || data.articles.length === 0) throw new Error("no articles");
+
+console.log("GNews response:", JSON.stringify(data).slice(0, 200));
+
+const articles = data.articles || data.items || [];
+if (articles.length === 0) throw new Error("no articles: " + JSON.stringify(data).slice(0, 100));
 
 if (category === "general") {
-const topics = data.articles.slice(0, 7).map((item, i) => ({
+const topics = articles.slice(0, 7).map((item, i) => ({
 id: i + 1,
 title: item.title,
 category: "general",
@@ -46,7 +50,7 @@ text: `以下のニュース記事タイトルを分類してください。
 - スポーツ：スポーツ全般のニュース
 - IT・科学：テクノロジー、AI、宇宙、科学のニュース
 各記事番号とカテゴリーをJSON形式のみで返してください。例：{"0":"国内","1":"政治"}
-${data.articles.map((a, i) => `${i}: ${a.title}`).join("\n")}`
+${articles.map((a, i) => `${i}: ${a.title}`).join("\n")}`
 }]
 }]
 }),
@@ -59,7 +63,7 @@ const match = text.match(/\{[\s\S]*?\}/);
 const classified = match ? JSON.parse(match[0]) : {};
 
 const targetCategory = categoryMap[category];
-const filtered = data.articles.filter((_, i) => classified[String(i)] === targetCategory);
+const filtered = articles.filter((_, i) => classified[String(i)] === targetCategory);
 
 const topics = filtered.length > 0
 ? filtered.slice(0, 7).map((item, i) => ({
@@ -67,7 +71,7 @@ id: i + 1,
 title: item.title,
 category: category,
 }))
-: data.articles.slice(0, 7).map((item, i) => ({
+: articles.slice(0, 7).map((item, i) => ({
 id: i + 1,
 title: item.title,
 category: category,
@@ -75,8 +79,7 @@ category: category,
 
 res.status(200).json({ topics });
 } catch (error) {
-console.error(error);
-res.status(500).json({ error: "トピックの取得に失敗しました" });
+console.error("Error:", error.message);
+res.status(500).json({ error: error.message });
 }
 }
-
